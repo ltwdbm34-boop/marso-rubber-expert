@@ -18,7 +18,7 @@
       --border-focus: #CBD5E1;
       --text-main: #0F172A;
       --text-muted: #64748B;
-      --mascot-accent: #E11D48;
+      --mascot-accent: #D32F2F;
       --mascot-yellow: #F59E0B;
       --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
       --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
@@ -36,7 +36,6 @@
       overflow: hidden;
     }
 
-    /* Header */
     header {
       background: #FFFFFF;
       border-bottom: 1px solid var(--border-line);
@@ -105,7 +104,6 @@
       box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
     }
 
-    /* Layout */
     .app-layout {
       flex: 1;
       display: flex;
@@ -117,7 +115,6 @@
       height: calc(100vh - 65px);
     }
 
-    /* Left Mascot Panel */
     .mascot-panel {
       flex: 0 0 330px;
       background: var(--card-bg);
@@ -208,7 +205,6 @@
       font-weight: 500;
     }
 
-    /* Right Chat Panel */
     .chat-panel {
       flex: 1;
       display: flex;
@@ -354,7 +350,6 @@
     .btn-submit:hover { background: var(--marso-dark-red); }
     .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* Mascot Animation */
     @keyframes bobble {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-7px); }
@@ -363,7 +358,6 @@
       animation: bobble 1.1s infinite ease-in-out;
     }
 
-    /* Responsive */
     @media (max-width: 860px) {
       body { height: auto; overflow: auto; }
       .app-layout { flex-direction: column; height: auto; }
@@ -389,21 +383,20 @@
   </header>
 
   <div class="app-layout">
-    <!-- Left Mascot Panel -->
     <aside class="mascot-panel">
       <div class="mascot-container">
         <div class="mascot-avatar" id="mascot-box">
-          <!-- Cartoon Mascot Character (Sparky the Marso Rubber Guard) -->
+          <!-- Sparky Mascot in Marso Brand Red (#D32F2F and #B71C1C) -->
           <svg width="105" height="105" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="22" y="24" width="56" height="56" rx="20" fill="#E11D48"/>
+            <rect x="22" y="24" width="56" height="56" rx="20" fill="#D32F2F"/>
             <path d="M18 42C18 36 28 32 50 32C72 32 82 36 82 42V48H18V42Z" fill="#F59E0B"/>
             <circle cx="38" cy="48" r="6" fill="#0F172A"/>
             <circle cx="62" cy="48" r="6" fill="#0F172A"/>
             <circle cx="40" cy="46" r="2.2" fill="white"/>
             <circle cx="64" cy="46" r="2.2" fill="white"/>
             <path id="mascot-mouth" d="M42 63C45 67 55 67 58 63" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
-            <rect x="12" y="48" width="10" height="18" rx="5" fill="#BE123C"/>
-            <rect x="78" y="48" width="10" height="18" rx="5" fill="#BE123C"/>
+            <rect x="12" y="48" width="10" height="18" rx="5" fill="#B71C1C"/>
+            <rect x="78" y="48" width="10" height="18" rx="5" fill="#B71C1C"/>
           </svg>
         </div>
         <div class="bubble" id="mascot-speech">
@@ -422,7 +415,6 @@
       </div>
     </aside>
 
-    <!-- Right Chat Panel -->
     <section class="chat-panel">
       <div id="chat-stream">
         <div class="msg bot">
@@ -445,7 +437,6 @@
   </div>
 
   <script>
-    // System Instructions containing full datasheet repository specifications
     const SYSTEM_INSTRUCTION = `You are the official Technical Specialist and Product Guide for Marso Rubber Company.
 You provide authoritative technical guidance based strictly on Marso's official catalog and certified test reports:
 
@@ -465,4 +456,116 @@ Product Lines & Codes:
 - MC-005RT: EGYBALLIST Bullet Proof Plates (20mm & 42mm, shooting ranges and military bunkers).
 - MC-001AV / MC-002AV / MC-003AV: Anti-vibration pads (up to 80 ton/m²).
 
-Format: Structured markdown tables or concise technical bullet points. Always provide exact part codes and test values
+Format: Structured markdown tables or concise technical bullet points. Always provide exact part codes and test values.`;
+
+    const chatStream = document.getElementById('chat-stream');
+    const queryInput = document.getElementById('query-input');
+    const btnSubmit = document.getElementById('btn-submit');
+    const mascotBox = document.getElementById('mascot-box');
+    const mascotSpeech = document.getElementById('mascot-speech');
+
+    let history = [];
+
+    function getStoredKey() {
+      return localStorage.getItem('MARSO_DEMO_KEY') || '';
+    }
+
+    let logoClicks = 0;
+    let clickTimer = null;
+    document.querySelector('.brand-badge').addEventListener('click', () => {
+      logoClicks++;
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => { logoClicks = 0; }, 800);
+
+      if (logoClicks >= 3) {
+        logoClicks = 0;
+        const currentKey = getStoredKey();
+        const enteredKey = prompt("Demo Admin Setup\nEnter Google Gemini API Key:", currentKey);
+        if (enteredKey !== null) {
+          localStorage.setItem('MARSO_DEMO_KEY', enteredKey.trim());
+          alert("Gemini API Key saved for this device.");
+          setMascotMood('idle', "API Key configured! What can I help you with?");
+        }
+      }
+    });
+
+    function setMascotMood(state, text) {
+      if (text) mascotSpeech.innerText = text;
+      if (state === 'thinking') {
+        mascotBox.classList.add('thinking');
+      } else {
+        mascotBox.classList.remove('thinking');
+      }
+    }
+
+    function addMessage(role, text) {
+      const msg = document.createElement('div');
+      msg.className = `msg ${role}`;
+      msg.innerHTML = text.replace(/\\n/g, '<br/>');
+      chatStream.appendChild(msg);
+      chatStream.scrollTop = chatStream.scrollHeight;
+      return msg;
+    }
+
+    async function handleSend() {
+      const text = queryInput.value.trim();
+      if (!text) return;
+
+      const apiKey = getStoredKey();
+      if (!apiKey) {
+        addMessage('user', text);
+        queryInput.value = '';
+        addMessage('bot', '<span style="color:#DC2626; font-weight:600;">Demo API key not set on this machine.</span><br/>Please triple-click the red <strong>MARSO</strong> logo in the header to enter the API key once.');
+        setMascotMood('idle', "Please triple-click the MARSO badge at the top to configure my API key!");
+        return;
+      }
+
+      addMessage('user', text);
+      queryInput.value = '';
+      btnSubmit.disabled = true;
+
+      setMascotMood('thinking', 'Consulting Marso technical datasheets...');
+      history.push({ role: 'user', parts: [{ text }] });
+
+      const botElement = addMessage('bot', 'Analyzing specifications...');
+
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+            contents: history
+          })
+        });
+
+        const data = await res.json();
+        if (data.error) {
+          botElement.innerHTML = `<span style="color:#DC2626;">Error: ${data.error.message}</span>`;
+          setMascotMood('idle', 'Oops, I encountered an issue verifying the response.');
+        } else {
+          const reply = data.candidates[0].content.parts[0].text;
+          botElement.innerHTML = reply.replace(/\\n/g, '<br/>');
+          history.push({ role: 'model', parts: [{ text: reply }] });
+          setMascotMood('idle', 'Found it! Here are the engineering specifications.');
+        }
+      } catch (err) {
+        botElement.innerHTML = `<span style="color:#DC2626;">Network Error: ${err.message}</span>`;
+        setMascotMood('idle', 'Connection error. Please check internet access.');
+      } finally {
+        btnSubmit.disabled = false;
+        chatStream.scrollTop = chatStream.scrollHeight;
+      }
+    }
+
+    btnSubmit.onclick = handleSend;
+    queryInput.onkeydown = (e) => { if (e.key === 'Enter') handleSend(); };
+
+    function sendPreset(prompt) {
+      queryInput.value = prompt;
+      handleSend();
+    }
+  </script>
+</body>
+</html>
