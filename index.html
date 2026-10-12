@@ -3,27 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marso Rubber Assistant | Technical & Product Guide</title>
+  <title>Marso Rubber | Technical Engineering Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --marso-red: #D32F2F;
-      --marso-red-hover: #B71C1C;
-      --bg-dark: #0F172A;
-      --card-bg: #1E293B;
-      --border-color: #334155;
-      --text-main: #F8FAFC;
-      --text-muted: #94A3B8;
-      --accent-blue: #38BDF8;
+      --marso-dark-red: #B71C1C;
+      --bg-page: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --card-subtle: #F1F5F9;
+      --border-line: #E2E8F0;
+      --border-focus: #CBD5E1;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --mascot-accent: #E11D48;
+      --mascot-yellow: #F59E0B;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background-color: var(--bg-dark);
+      background-color: var(--bg-page);
       color: var(--text-main);
       display: flex;
       flex-direction: column;
@@ -31,105 +36,230 @@
       overflow: hidden;
     }
 
+    /* Header */
     header {
-      background-color: var(--card-bg);
-      border-bottom: 1px solid var(--border-color);
-      padding: 14px 24px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-line);
+      padding: 12px 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 10;
+      z-index: 20;
+      box-shadow: var(--shadow-sm);
     }
 
-    .brand {
+    .brand-wrap {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .brand-logo {
-      background-color: var(--marso-red);
+    .brand-badge {
+      background: linear-gradient(135deg, var(--marso-red), var(--marso-dark-red));
       color: white;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.25rem;
       font-weight: 700;
-      font-size: 1.1rem;
-      padding: 6px 12px;
-      border-radius: 6px;
-      letter-spacing: 1px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 3px 10px rgba(211, 47, 47, 0.25);
+      transition: transform 0.15s ease;
     }
 
-    .brand-title h1 {
+    .brand-badge:active {
+      transform: scale(0.96);
+    }
+
+    .brand-meta h1 {
       font-size: 1.05rem;
-      font-weight: 600;
+      font-weight: 700;
+      color: var(--text-main);
     }
 
-    .brand-title p {
-      font-size: 0.75rem;
+    .brand-meta span {
+      font-size: 0.78rem;
       color: var(--text-muted);
     }
 
-    .btn-key {
-      background-color: transparent;
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      color: #065F46;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #10B981;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+    }
+
+    /* Layout */
+    .app-layout {
+      flex: 1;
+      display: flex;
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      gap: 20px;
+      padding: 18px 20px;
+      height: calc(100vh - 65px);
+    }
+
+    /* Left Mascot Panel */
+    .mascot-panel {
+      flex: 0 0 330px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-line);
+      border-radius: 14px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-md);
+    }
+
+    .mascot-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mascot-avatar {
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, #FFFFFF 0%, #F1F5F9 100%);
+      border-radius: 50%;
+      border: 3px solid var(--marso-red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 6px 18px rgba(211, 47, 47, 0.15);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .mascot-avatar:hover {
+      transform: scale(1.04) rotate(1.5deg);
+    }
+
+    .bubble {
+      background: var(--card-subtle);
+      border: 1px solid var(--border-line);
+      padding: 12px 16px;
+      border-radius: 12px;
       font-size: 0.85rem;
-      transition: all 0.2s;
+      color: var(--text-main);
+      line-height: 1.45;
+      position: relative;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
     }
 
-    .btn-key:hover {
-      background-color: rgba(255,255,255,0.05);
-      border-color: var(--text-muted);
+    .bubble::after {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0 8px 8px 8px;
+      border-style: solid;
+      border-color: transparent transparent var(--card-subtle) transparent;
     }
 
-    main {
+    .quick-specs {
+      width: 100%;
+      background: var(--card-subtle);
+      border-radius: 10px;
+      padding: 14px;
+      border: 1px solid var(--border-line);
+    }
+
+    .quick-specs h4 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .quick-specs ul {
+      list-style: none;
+      font-size: 0.78rem;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    /* Right Chat Panel */
+    .chat-panel {
       flex: 1;
       display: flex;
       flex-direction: column;
-      max-width: 900px;
-      width: 100%;
-      margin: 0 auto;
-      height: calc(100vh - 65px);
-      padding: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-line);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
     }
 
-    #chat-box {
+    #chat-stream {
       flex: 1;
       overflow-y: auto;
-      padding-right: 8px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 16px;
       scroll-behavior: smooth;
+      background: #FFFFFF;
     }
 
     .msg {
-      max-width: 85%;
+      max-width: 82%;
       padding: 14px 18px;
-      border-radius: 10px;
-      line-height: 1.55;
+      border-radius: 12px;
       font-size: 0.92rem;
+      line-height: 1.6;
       word-break: break-word;
+      box-shadow: var(--shadow-sm);
     }
 
     .msg.bot {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
+      background: var(--card-subtle);
+      border: 1px solid var(--border-line);
+      color: var(--text-main);
       align-self: flex-start;
       border-top-left-radius: 2px;
     }
 
     .msg.user {
-      background-color: var(--marso-red);
-      color: white;
+      background: linear-gradient(135deg, var(--marso-red), var(--marso-dark-red));
+      color: #FFFFFF;
       align-self: flex-end;
       border-top-right-radius: 2px;
     }
 
     .msg pre {
-      background: #0B1120;
-      padding: 10px;
+      background: #0F172A;
+      color: #F8FAFC;
+      padding: 10px 14px;
       border-radius: 6px;
       overflow-x: auto;
       margin: 10px 0;
@@ -140,277 +270,199 @@
     .msg table {
       width: 100%;
       border-collapse: collapse;
-      margin: 10px 0;
-      font-size: 0.85rem;
+      margin: 12px 0;
+      font-size: 0.84rem;
     }
 
     .msg th, .msg td {
-      border: 1px solid var(--border-color);
-      padding: 6px 10px;
-      text-align: left;
+      border: 1px solid var(--border-line);
+      padding: 8px 10px;
     }
 
     .msg th {
-      background-color: rgba(255,255,255,0.05);
+      background: #F1F5F9;
+      font-weight: 600;
+      color: var(--text-main);
     }
 
-    .chips-bar {
+    .suggest-bar {
       display: flex;
       gap: 8px;
+      padding: 10px 20px;
+      background: #F8FAFC;
+      border-top: 1px solid var(--border-line);
       overflow-x: auto;
-      padding: 8px 0;
-      margin-bottom: 8px;
       white-space: nowrap;
     }
 
-    .chip {
-      background-color: rgba(255,255,255,0.05);
-      border: 1px solid var(--border-color);
-      padding: 6px 12px;
+    .chip-btn {
+      background: #FFFFFF;
+      border: 1px solid var(--border-line);
+      color: var(--text-muted);
+      padding: 7px 14px;
       border-radius: 20px;
       font-size: 0.78rem;
-      color: var(--text-muted);
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
     }
 
-    .chip:hover {
-      background-color: rgba(255,255,255,0.1);
-      color: var(--text-main);
-      border-color: var(--accent-blue);
+    .chip-btn:hover {
+      background: #FEF2F2;
+      border-color: var(--marso-red);
+      color: var(--marso-red);
     }
 
-    .input-container {
+    .input-row {
       display: flex;
-      gap: 10px;
-      background-color: var(--card-bg);
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
+      gap: 12px;
+      padding: 14px 20px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-line);
     }
 
-    .input-container input {
+    .input-row input {
       flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
+      background: #F8FAFC;
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 12px 16px;
       color: var(--text-main);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
     }
 
-    .btn-send {
-      background-color: var(--marso-red);
+    .input-row input:focus {
+      background: #FFFFFF;
+      border-color: var(--marso-red);
+    }
+
+    .btn-submit {
+      background: var(--marso-red);
       color: white;
       border: none;
-      padding: 8px 18px;
-      border-radius: 6px;
+      border-radius: 8px;
+      padding: 0 24px;
       font-weight: 600;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: background 0.2s;
     }
 
-    .btn-send:hover { background-color: var(--marso-red-hover); }
-    .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-submit:hover { background: var(--marso-dark-red); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* Modal Styling */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
+    /* Mascot Animation */
+    @keyframes bobble {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
+    }
+    .thinking {
+      animation: bobble 1.1s infinite ease-in-out;
     }
 
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
+    /* Responsive */
+    @media (max-width: 860px) {
+      body { height: auto; overflow: auto; }
+      .app-layout { flex-direction: column; height: auto; }
+      .mascot-panel { flex: 0 0 auto; width: 100%; }
+      .chat-panel { height: 600px; }
     }
-
-    .modal {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      width: 90%;
-      max-width: 440px;
-      padding: 24px;
-      border-radius: 12px;
-    }
-
-    .modal h3 { margin-bottom: 8px; }
-    .modal p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4; }
-    .modal input {
-      width: 100%;
-      padding: 10px;
-      background: var(--bg-dark);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      color: white;
-      margin-bottom: 16px;
-      outline: none;
-    }
-
-    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="brand">
-      <div class="brand-logo">MARSO</div>
-      <div class="brand-title">
-        <h1>Marso Rubber Assistant</h1>
-        <p>Technical & Product Specialist Guide</p>
+    <div class="brand-wrap">
+      <div class="brand-badge" title="Triple-click here to configure the demo API key">MARSO</div>
+      <div class="brand-meta">
+        <h1>Marso Rubber Engineering Guide</h1>
+        <span>Official Product & Material Assistant</span>
       </div>
     </div>
-    <button class="btn-key" id="open-key-modal">⚙ Set API Key</button>
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      Factory Verified Datasheets
+    </div>
   </header>
 
-  <main>
-    <div id="chat-box">
-      <div class="msg bot">
-        Welcome to <strong>Marso Rubber Company</strong> technical assistant. How can I assist you today? You can inquire about our rubber compounding (NBR, EPDM, Neoprene, SBR), elastomeric bridge bearings (MC-002CP), electrical insulation rolls (MC-001EI), dam seals, anti-vibration pads, or RFQ requirements.
+  <div class="app-layout">
+    <!-- Left Mascot Panel -->
+    <aside class="mascot-panel">
+      <div class="mascot-container">
+        <div class="mascot-avatar" id="mascot-box">
+          <!-- Cartoon Mascot Character (Sparky the Marso Rubber Guard) -->
+          <svg width="105" height="105" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="22" y="24" width="56" height="56" rx="20" fill="#E11D48"/>
+            <path d="M18 42C18 36 28 32 50 32C72 32 82 36 82 42V48H18V42Z" fill="#F59E0B"/>
+            <circle cx="38" cy="48" r="6" fill="#0F172A"/>
+            <circle cx="62" cy="48" r="6" fill="#0F172A"/>
+            <circle cx="40" cy="46" r="2.2" fill="white"/>
+            <circle cx="64" cy="46" r="2.2" fill="white"/>
+            <path id="mascot-mouth" d="M42 63C45 67 55 67 58 63" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+            <rect x="12" y="48" width="10" height="18" rx="5" fill="#BE123C"/>
+            <rect x="78" y="48" width="10" height="18" rx="5" fill="#BE123C"/>
+          </svg>
+        </div>
+        <div class="bubble" id="mascot-speech">
+          "Hello! I'm Sparky, your Marso polymer guide. Ask me about bearing pads, dam seals, or dielectric mats!"
+        </div>
       </div>
-    </div>
 
-    <div class="chips-bar">
-      <div class="chip" onclick="askPreset('What are the dimensions and specs of Marso Elastomeric Bearings MC-002CP?')">Elastomeric Bearings (MC-002CP)</div>
-      <div class="chip" onclick="askPreset('Give me the IEC 61111 ratings for Electrical Insulator Rubber Rolls (MC-001EI).')">Electrical Rolls (MC-001EI)</div>
-      <div class="chip" onclick="askPreset('What dam seals does Marso provide for radial and flap gates?')">Dam Gate Seals</div>
-      <div class="chip" onclick="askPreset('Which elastomer should I specify for oil and fuel resistance up to 100 C?')">Oil vs Fuel Elastomers</div>
-    </div>
-
-    <div class="input-container">
-      <input type="text" id="user-input" placeholder="Ask about Marso products, ASTM standards, or material grades..." />
-      <button class="btn-send" id="btn-send">Send</button>
-    </div>
-  </main>
-
-  <div class="modal-overlay" id="key-modal">
-    <div class="modal">
-      <h3>Gemini API Key</h3>
-      <p>Enter your Gemini API key. It is stored solely in your local browser cache (localStorage) and never transmitted to any third-party server.</p>
-      <input type="password" id="api-key-input" placeholder="AIzaSy..." />
-      <div class="modal-actions">
-        <button class="btn-key" id="close-key-modal">Cancel</button>
-        <button class="btn-send" id="save-key-btn">Save Key</button>
+      <div class="quick-specs">
+        <h4>Certified Standards</h4>
+        <ul>
+          <li>✓ EN 1337-3 / AASHTO M251 (Bearings)</li>
+          <li>✓ IEC 61111:2009 (Dielectric Rolls)</li>
+          <li>✓ ASTM D 4637 Type 1 (Roofing)</li>
+          <li>✓ EN 14188-3 (Concrete Joint Seals)</li>
+        </ul>
       </div>
-    </div>
+    </aside>
+
+    <!-- Right Chat Panel -->
+    <section class="chat-panel">
+      <div id="chat-stream">
+        <div class="msg bot">
+          Welcome to the <strong>Marso Rubber Assistant</strong> portal. Technical specifications and test certificates for all company product lines are loaded. Which elastomer, bearing, or seal profile do you need assistance with?
+        </div>
+      </div>
+
+      <div class="suggest-bar">
+        <button class="chip-btn" onclick="sendPreset('What are the dimensions and specs of Marso Elastomeric Bearings MC-002CP?')">Bearing MC-002CP (EN 1337-3)</button>
+        <button class="chip-btn" onclick="sendPreset('Give me the IEC 61111 voltage ratings for Electrical Insulator Rubber Rolls MC-001EI.')">Dielectric Rolls (MC-001EI)</button>
+        <button class="chip-btn" onclick="sendPreset('What profiles are available for river dam gate seals?')">Dam Seals (Radial & Flap)</button>
+        <button class="chip-btn" onclick="sendPreset('Compare EPDM Curtain Wall Membrane MC-001CW with Roofing Membrane MC-002RF.')">EPDM Membranes</button>
+      </div>
+
+      <div class="input-row">
+        <input type="text" id="query-input" placeholder="Inquire about compound properties, ASTM callouts, or dimensions..." />
+        <button class="btn-submit" id="btn-submit">Send</button>
+      </div>
+    </section>
   </div>
 
   <script>
+    // System Instructions containing full datasheet repository specifications
     const SYSTEM_INSTRUCTION = `You are the official Technical Specialist and Product Guide for Marso Rubber Company.
-You provide authoritative technical guidance based on Marso's official catalog and certified test reports:
+You provide authoritative technical guidance based strictly on Marso's official catalog and certified test reports:
 
-Product Line Highlights:
-- MC-002CP: Elastomeric Bearings (EN 1337-3 / AASHTO M251), Type C4 with 5 rubber layers (8mm) and 4 steel plates (3mm), 250x400x72mm, vertical load 130 ton, displacement ±28mm.
-- MC-001CP: EPDM Steel/Concrete pads, sizes up to 100x1000mm, 10-50mm thick, resistant to 10% H2SO4 and 20% HCl.
-- MC-001EI: Electrical Insulator Rubber Rolls (IEC 61111:2009 / IEC 60243:2013 by Cairo University). Proof voltages: 2mm/3mm (8-9 kV Class 1), 3mm Beige (38 kV Class 3), 4mm Beige EPDM (71 kV Class 7), 6mm Gray (75 kV Class 7), 10mm Gray (63 kV Class 6).
-- MC-002EI: ESD Rubber Mats (2-layer, static dissipative top + conductive bottom, solder resistant up to 1200°F).
-- Dam Gate Seals: MC-002FG (Flap Gate L-seal), MC-001RG (Radial Gate bulb seal), MC-003SL (Stop Log flat seal). All EPDM, 100 kg/cm² tensile, 450% elongation.
-- MC-001CW: EPDM Curtain Wall Membrane (Keltan 8550), certified by Egyptian Chemistry Administration, 9.11 MPa tensile, -45°C to 120°C.
+Product Lines & Codes:
+- MC-002CP (Marso Elastomeric Bearings EN 1337-3 / AASHTO M251): Type C4 with 5 rubber layers (8mm) + 4 internal steel plates (3mm) + 10mm top/bottom plates, 250x400x72mm, vertical load 130 ton, displacement ±28mm, tensile 21 MPa, elongation 700%, hardness 63 Shore A.
+- MC-001CP: EPDM Steel & Concrete pads, sizes up to 100x1000mm, 10-50mm thick, resistant to 10% H2SO4 and 20% HCl.
+- MC-002RS & MC-003RS: Neoprene Bearing Rubber Strips (MC-003RS: 165x1000x25mm; tensile >= 10 kg/cm2, elongation >= 450%).
+- Neoprene Concrete Pads: 50x4000x5mm, holds up to 400 ton/m2, tensile >= 40 kg/cm2.
+- Marso-CJ & Marso Compression Seals: C-D 44/49/52/58 series expansion joints for bridges/tunnels.
+- Dam Gate Seals: MC-002FG (Flap Gate L-seal), MC-001RG (Radial Gate bulb seal), MC-003SL (Stop Log flat seal). All EPDM, tensile 100 kg/cm², elongation 450%.
+- MC-001EI (Electrical Insulator Rubber Rolls, IEC 61111:2009 / IEC 60243:2013 tested by Cairo University): 2mm/3mm (8-9 kV Class 1), 3mm Beige (38 kV Class 3), 4mm Beige EPDM (71 kV Class 7), 6mm Gray (75 kV Class 7), 10mm Gray (63 kV Class 6). Rated -15°C to 100°C.
+- MC-002EI: ESD Rubber Mats (2-layer dissipative/conductive, heat & solder resistant to 1200°F).
+- MC-001CW: EPDM Curtain Wall Membrane (Keltan 8550), certified by Egyptian Chemistry Administration, tensile 9.11 MPa (10.19 MPa after heat aging), -45°C to 120°C.
 - MC-001AR: Anti-Abrasion Rubber Lining, NR/Synthetic blend, max 150mm³ loss.
-- MC-002NP: Neoprene Tank Lining (seawater, oil, chemical service).
-- MC-002RS: NBR Petroleum Tank Seals (fuels, propane, butane, oil resistant).
-- MC-005RT: EGYBALLIST Bullet Proof Plates (shooting ranges, bunkers).
+- MC-002NP: Neoprene Tank Lining (seawater, oil, acid service).
+- MC-002RS: NBR Petroleum Tank Seals (fuels, propane, butane).
+- MC-005RT: EGYBALLIST Bullet Proof Plates (20mm & 42mm, shooting ranges and military bunkers).
 - MC-001AV / MC-002AV / MC-003AV: Anti-vibration pads (up to 80 ton/m²).
 
-Tone: Professional, technically precise, structured with clear bullet points or markdown tables. For custom inquiries or confidential CAD, direct users to Marso Sales/Engineering.`;
-
-    const chatBox = document.getElementById('chat-box');
-    const userInput = document.getElementById('user-input');
-    const btnSend = document.getElementById('btn-send');
-    const keyModal = document.getElementById('key-modal');
-    const openKeyModal = document.getElementById('open-key-modal');
-    const closeKeyModal = document.getElementById('close-key-modal');
-    const saveKeyBtn = document.getElementById('save-key-btn');
-    const apiKeyInput = document.getElementById('api-key-input');
-
-    let chatHistory = [];
-
-    function getKey() {
-      return localStorage.getItem('MARSO_GEMINI_API_KEY') || '';
-    }
-
-    openKeyModal.onclick = () => {
-      apiKeyInput.value = getKey();
-      keyModal.classList.add('active');
-    };
-
-    closeKeyModal.onclick = () => keyModal.classList.remove('active');
-
-    saveKeyBtn.onclick = () => {
-      const val = apiKeyInput.value.trim();
-      if (val) {
-        localStorage.setItem('MARSO_GEMINI_API_KEY', val);
-        keyModal.classList.remove('active');
-        appendMessage('bot', 'API key configured successfully.');
-      }
-    };
-
-    function appendMessage(sender, text) {
-      const msg = document.createElement('div');
-      msg.className = `msg ${sender}`;
-      msg.innerHTML = text.replace(/\\n/g, '<br/>');
-      chatBox.appendChild(msg);
-      chatBox.scrollTop = chatBox.scrollHeight;
-      return msg;
-    }
-
-    async function sendMessage() {
-      const text = userInput.value.trim();
-      const apiKey = getKey();
-
-      if (!apiKey) {
-        keyModal.classList.add('active');
-        return;
-      }
-      if (!text) return;
-
-      appendMessage('user', text);
-      userInput.value = '';
-      btnSend.disabled = true;
-
-      chatHistory.push({ role: 'user', parts: [{ text }] });
-      const loadingMsg = appendMessage('bot', 'Consulting technical specifications...');
-
-      try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-            contents: chatHistory
-          })
-        });
-
-        const data = await response.json();
-        if (data.error) {
-          loadingMsg.innerHTML = `<span style="color: #F87171;">API Error: ${data.error.message}</span>`;
-        } else {
-          const reply = data.candidates[0].content.parts[0].text;
-          loadingMsg.innerHTML = reply.replace(/\\n/g, '<br/>');
-          chatHistory.push({ role: 'model', parts: [{ text: reply }] });
-        }
-      } catch (err) {
-        loadingMsg.innerHTML = `<span style="color: #F87171;">Connection Error: ${err.message}</span>`;
-      } finally {
-        btnSend.disabled = false;
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
-    }
-
-    btnSend.onclick = sendMessage;
-    userInput.onkeydown = (e) => { if (e.key === 'Enter') sendMessage(); };
-
-    function askPreset(q) {
-      userInput.value = q;
-      sendMessage();
-    }
-  </script>
-</body>
-</html>
+Format: Structured markdown tables or concise technical bullet points. Always provide exact part codes and test values
